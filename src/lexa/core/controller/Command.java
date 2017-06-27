@@ -1,13 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/*==============================================================================
+ * Lexa - Property of William Norman-Walker
+ *------------------------------------------------------------------------------
+ * Command.java
+ *------------------------------------------------------------------------------
+ * Author:  William Norman-Walker
+ * Created: June 2017
+ *==============================================================================
  */
 package lexa.core.controller;
 
 /**
- *
+ * A command for managing the Lexa stack
  * @author william
+ * @since 2017-06
  */
 abstract class Command
 {

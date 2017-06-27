@@ -1,12 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/*==============================================================================
+ * Lexa - Property of William Norman-Walker
+ *------------------------------------------------------------------------------
+ * HostCommand.java
+ *------------------------------------------------------------------------------
+ * Author:  William Norman-Walker
+ * Created: February 2017
+ *==============================================================================
  */
 package lexa.core.controller;
 
 /**
- *
+ * A command to deal with a host
  * @author william
+ * @since 2017-06
  */
 abstract class HostCommand
         extends Command {

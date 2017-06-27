@@ -1,33 +1,21 @@
-/*
- * =============================================================================
+/*==============================================================================
  * Lexa - Property of William Norman-Walker
- * -----------------------------------------------------------------------------
+ *------------------------------------------------------------------------------
  * Arguments.java
  *------------------------------------------------------------------------------
  * Author:  William Norman-Walker
- * Created: Month YEAR
- *------------------------------------------------------------------------------
- * Change Log
- * Date:        By: Description:
- * ----------   --- ------------------------------------------------------------
- * -            -   -
+ * Created: June 2017
  *==============================================================================
  */
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package lexa.core.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Arguments for a command
  * @author william
+ * @since 2017-06
  */
 class Arguments {
     protected final List<String> arguments;

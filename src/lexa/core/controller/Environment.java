@@ -1,7 +1,6 @@
-/*
- * =============================================================================
+/*==============================================================================
  * Lexa - Property of William Norman-Walker
- * -----------------------------------------------------------------------------
+ *------------------------------------------------------------------------------
  * Environment.java
  *------------------------------------------------------------------------------
  * Author:  William Norman-Walker
@@ -26,10 +25,11 @@ import lexa.core.data.io.DataReader;
 import lexa.core.data.io.DataWriter;
 
 /**
- *
+ * The runtime environment
  * @author william
+ * @since 2017-06
  */
-final class Environment {
+public final class Environment {
 
     private static final String PROMPT_SUFFIX = "> ";
     private static final String NO_HOST_PROMPT = "[no host]" + PROMPT_SUFFIX;
@@ -43,6 +43,7 @@ final class Environment {
     private DataSet config; // any loaded config files;
     private String prompt;
     private boolean runnng;
+
     Environment()
     {
         this.envFile = new File("lx.config.lexa");
@@ -138,14 +139,6 @@ final class Environment {
         return sb.toString();
     }
 
-//    String getHost(String host)
-//    {
-//        DataValue value = this.envData.item("host." + host);
-//        if (value == null)
-//            return null;
-//        return value.getString();
-//    }
-
     String getHostFile(String hostName)
     {
         return this.envData.getDataSet("hostConfig")
@@ -161,17 +154,17 @@ final class Environment {
     String getHostStatus(String hostName)
     {
         // do we have a connection?
-        DataSet config = this.envData
+        DataSet hostConfig = this.envData
                 .getDataSet("hostConfig")
                 .getDataSet(hostName);
         if (!this.sessionList.containsKey(hostName))
         {
-            config.put("status","nocnnct");
+            hostConfig.put("status","nocnnct");
         } else
         {
-            config.put("status","offline");
+            hostConfig.put("status","offline");
         }
-        return config.getString("status");
+        return hostConfig.getString("status");
     }
 
     Date getHostUpdateDate(String hostName)

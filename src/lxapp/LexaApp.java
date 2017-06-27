@@ -1,6 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/*==============================================================================
+ * Lexa - Property of William Norman-Walker
+ *------------------------------------------------------------------------------
+ * LexaApp.java
+ *------------------------------------------------------------------------------
+ * Author:  William Norman-Walker
+ * Created: June 2017
+ *==============================================================================
  */
 package lxapp;
 
@@ -9,8 +14,9 @@ import lexa.core.controller.CommandHandler;
 import lexa.core.controller.ConsoleCommandEntry;
 
 /**
- *
+ * Launch the Lexa Command line application
  * @author william
+ * @since 2017-06
  */
 public class LexaApp {
 

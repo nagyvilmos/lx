@@ -1,14 +1,12 @@
-/*
- * =============================================================================
+/*==============================================================================
  * Lexa - Property of William Norman-Walker
- * -----------------------------------------------------------------------------
+ *------------------------------------------------------------------------------
  * ConsoleCommandEntry.java
  *------------------------------------------------------------------------------
  * Author:  William Norman-Walker
- * Created: february 2017
+ * Created: June 2017
  *==============================================================================
  */
-
 package lexa.core.controller;
 
 import java.io.BufferedReader;
@@ -16,14 +14,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- *
+ * Command handler for the console
  * @author william
- * @since 2017-02
+ * @since 2017-06
  */
 public class ConsoleCommandEntry
         extends CommandHandler
 {
-
 
     private BufferedReader input;
 

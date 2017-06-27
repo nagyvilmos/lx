@@ -1,25 +1,18 @@
-/*
- * =============================================================================
+/*==============================================================================
  * Lexa - Property of William Norman-Walker
- * -----------------------------------------------------------------------------
+ *------------------------------------------------------------------------------
  * InvalidCommand.java
  *------------------------------------------------------------------------------
  * Author:  William Norman-Walker
- * Created: Month YEAR
+ * Created: February 2017
  *==============================================================================
  */
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package lexa.core.controller;
 
 /**
- *
+ * When a command is invalid it is sent here.
  * @author william
+ * @since 2017-06
  */
 class InvalidCommand extends Command {
 

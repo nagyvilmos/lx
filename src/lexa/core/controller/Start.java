@@ -1,6 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/*==============================================================================
+ * Lexa - Property of William Norman-Walker
+ *------------------------------------------------------------------------------
+ * Start.java
+ *------------------------------------------------------------------------------
+ * Author:  William Norman-Walker
+ * Created: February 2017
+ *==============================================================================
  */
 package lexa.core.controller;
 
@@ -8,8 +13,9 @@ import java.io.IOException;
 import lexa.core.controller.launcher.JavaProcessLauncher;
 
 /**
- *
+ * Start a host
  * @author william
+ * @since 2017-06
  */
 public class Start
     extends HostCommand {
