@@ -7,9 +7,11 @@
  * Created: June 2017
  *==============================================================================
  */
-package lexa.core.controller;
+package lexa.core.controller.command;
 
+import lexa.core.controller.Environment;
 import java.io.IOException;
+import lexa.core.controller.Arguments;
 import lexa.core.data.exception.DataException;
 
 /**
@@ -25,7 +27,7 @@ class Connect extends Command {
     }
 
     @Override
-    Command validate()
+   public Command validate()
     {
         switch (this.arguments.get(0))
         {
@@ -54,7 +56,7 @@ class Connect extends Command {
 
 
     @Override
-    void execute()
+    public void execute()
     {
         String host = this.arguments.get(0).isEmpty() ?
                     this.environment.getCurrentHost() :

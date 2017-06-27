@@ -7,7 +7,10 @@
  * Created: February 2017
  *==============================================================================
  */
-package lexa.core.controller;
+package lexa.core.controller.command;
+
+import lexa.core.controller.Environment;
+import lexa.core.controller.Arguments;
 
 /**
  * Exit the command line environment
@@ -22,7 +25,7 @@ class Exit extends Command {
     }
 
     @Override
-    Command validate()
+    public Command validate()
     {
         if (this.arguments.size() > 1)
         {
@@ -33,7 +36,7 @@ class Exit extends Command {
 
 
     @Override
-    void execute()
+    public void execute()
     {
         this.environment.close();
     }

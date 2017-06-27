@@ -1,6 +1,7 @@
 summary - lexa command environment
-env @include help\env.help.lexa
-exit @include help\exit.help.lexa
-help @include help\help.help.lexa
-host @include help\host.help.lexa
-lx @include help\lx.help.lexa
+env         @include help\env.help.lexa
+exit        @include help\exit.help.lexa
+help        @include help\help.help.lexa
+host        @include help\host.help.lexa
+lx          @include help\lx.help.lexa
+override    @include help\override.help.lexa

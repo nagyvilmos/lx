@@ -7,9 +7,11 @@
  * Created: February 2017
  *==============================================================================
  */
-package lexa.core.controller;
+package lexa.core.controller.command;
 
+import lexa.core.controller.Environment;
 import java.io.File;
+import lexa.core.controller.Arguments;
 
 /**
  * Manage the hosts
@@ -29,7 +31,7 @@ class Host
     }
 
     @Override
-    void execute()
+    public void execute()
     {
         switch (this.arguments.get(0))
         {
@@ -124,7 +126,7 @@ class Host
     }
 
     @Override
-    Command validate()
+    public Command validate()
     {
         switch (this.arguments.get(0))
         {

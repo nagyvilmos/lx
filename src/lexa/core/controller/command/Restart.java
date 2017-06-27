@@ -7,7 +7,10 @@
  * Created: February 2017
  *==============================================================================
  */
-package lexa.core.controller;
+package lexa.core.controller.command;
+
+import lexa.core.controller.Environment;
+import lexa.core.controller.Arguments;
 
 /**
  * Restart a host

@@ -7,7 +7,10 @@
  * Created: June 2017
  *==============================================================================
  */
-package lexa.core.controller;
+package lexa.core.controller.command;
+
+import lexa.core.controller.Environment;
+import lexa.core.controller.Arguments;
 
 /**
  * Manage the environment
@@ -23,7 +26,7 @@ public class Env
     }
 
     @Override
-    void execute()
+    public void execute()
     {
         switch (this.arguments.get(0))
         {
@@ -42,7 +45,7 @@ public class Env
     }
 
     @Override
-    Command validate()
+    public Command validate()
     {
         if (this.arguments.size() > 1 || (
                 !this.arguments.get(0).isEmpty() &&

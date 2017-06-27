@@ -7,7 +7,11 @@
  * Created: June 2017
  *==============================================================================
  */
-package lexa.core.controller;
+package lexa.core.controller.command;
+
+import lexa.core.controller.Arguments;
+import lexa.core.controller.Environment;
+import lexa.core.controller.command.HostCommand;
 
 /**
  * A command that requires a connected session

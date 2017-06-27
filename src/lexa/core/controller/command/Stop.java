@@ -1,39 +1,34 @@
 /*==============================================================================
  * Lexa - Property of William Norman-Walker
  *------------------------------------------------------------------------------
- * Start.java
+ * Stop.java
  *------------------------------------------------------------------------------
  * Author:  William Norman-Walker
  * Created: February 2017
  *==============================================================================
  */
-package lexa.core.controller;
+package lexa.core.controller.command;
 
-import java.io.IOException;
-import lexa.core.controller.launcher.JavaProcessLauncher;
+import lexa.core.controller.Environment;
+import lexa.core.controller.Arguments;
 
 /**
- * Start a host
+ * Stop a host
  * @author william
  * @since 2017-06
  */
-public class Start
-    extends HostCommand {
-    Start(Environment environment, Arguments arguments)
+public class Stop
+        extends HostCommand {
+
+    Stop(Environment environment, Arguments arguments)
     {
         super(environment, arguments);
     }
 
-
     @Override
-    public void execute() {
-        try
-        {
-            JavaProcessLauncher.launch("lxhost.HostApp", false, this.getHostFile());
-        }
-        catch (IOException | InterruptedException ex)
-        {
-             this.handleException("Unable to launch host", ex);
-        }
+    public void execute()
+    {
+        throw new UnsupportedOperationException("Stop.execute not supported yet.");
     }
+
 }

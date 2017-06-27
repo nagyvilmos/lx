@@ -9,6 +9,7 @@
  */
 package lexa.core.controller;
 
+import lexa.core.controller.command.Command;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

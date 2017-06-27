@@ -9,6 +9,7 @@
  */
 package lexa.core.controller;
 
+import lexa.core.controller.command.Command;
 import java.util.Arrays;
 import java.util.List;
 

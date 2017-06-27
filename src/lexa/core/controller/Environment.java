@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import lexa.core.comms.Session;
+import lexa.core.controller.Arguments;
 import lexa.core.data.DataItem;
 import lexa.core.data.DataSet;
 import lexa.core.data.ArrayDataSet;
@@ -44,7 +45,7 @@ public final class Environment {
     private String prompt;
     private boolean runnng;
 
-    Environment()
+    public Environment()
     {
         this.envFile = new File("lx.config.lexa");
         this.helpFile = new File("lx.help.lexa");
@@ -53,7 +54,7 @@ public final class Environment {
         this.runnng = true;
     }
 
-    void connect(String host) throws IOException, DataException
+    public void connect(String host) throws IOException, DataException
     {
         if (this.sessionList.containsKey(host))
         {
@@ -69,13 +70,13 @@ public final class Environment {
         Session session = new Session(sessionCfg);
     }
 
-    void setCurrentHost(String hostName)
+    public void setCurrentHost(String hostName)
     {
         this.envData.put("hostName",hostName);
         this.setPrompt(hostName);
     }
 
-    String getHelpSummary(Arguments arguments)
+    public String getHelpSummary(Arguments arguments)
     {
         DataSet help = this.helpData;
         for (int a = 0; a < arguments.size(); a++)
@@ -139,19 +140,19 @@ public final class Environment {
         return sb.toString();
     }
 
-    String getHostFile(String hostName)
+    public String getHostFile(String hostName)
     {
         return this.envData.getDataSet("hostConfig")
                 .getDataSet(hostName)
                 .getString("hostFile");
     }
 
-    String[] getHostNames()
+    public String[] getHostNames()
     {
         return this.envData.getDataSet("hostConfig").keys();
     }
 
-    String getHostStatus(String hostName)
+    public String getHostStatus(String hostName)
     {
         // do we have a connection?
         DataSet hostConfig = this.envData
@@ -168,28 +169,29 @@ public final class Environment {
         return hostConfig.getString("status");
     }
 
-    Date getHostUpdateDate(String hostName)
+    public Date getHostUpdateDate(String hostName)
     {
         return this.envData.getDataSet("hostConfig")
                 .getDataSet(hostName)
                 .getDate("updated");
     }
 
-    String getPrompt()
+    public String getPrompt()
     {
         return this.prompt;
     }
 
-    DataSet getSettings()
+    public DataSet getSettings()
     {
         return this.envData;
     }
-    String getCurrentHost()
+
+    public String getCurrentHost()
     {
         return this.envData.getString("hostName");
     }
 
-    String getHelp(Arguments args)
+    public String getHelp(Arguments args)
     {
         DataSet help = this.helpData;
         for (int a = 0; a < args.size(); a++)
@@ -213,22 +215,23 @@ public final class Environment {
                     null;
     }
 
-    boolean isHost(String hostName)
+    public boolean isHost(String hostName)
     {
         return this.envData.getDataSet("hostConfig")
                 .contains(hostName);
     }
-    boolean isRunning()
+
+    public boolean isRunning()
     {
         return this.runnng;
     }
 
-    void close()
+    public void close()
     {
         this.runnng=false;
     }
 
-    void save()
+    public void save()
     {
         this.envData.put("saved",new Date());
         DataWriter dw = null;
@@ -253,7 +256,8 @@ public final class Environment {
         }
 
     }
-    void load()
+
+    public void load()
     {
         this.config = new ArrayDataSet();
         this.helpData = loadFile(this.helpFile);
@@ -285,7 +289,7 @@ public final class Environment {
         this.sessionList.clear();
     }
 
-    void setHost(String hostName, String hostFile)
+    public void setHost(String hostName, String hostFile)
     {
         this.envData.getDataSet("hostConfig")
                 .put(hostName,

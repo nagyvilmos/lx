@@ -7,25 +7,30 @@
  * Created: February 2017
  *==============================================================================
  */
-package lexa.core.controller;
+package lexa.core.controller.command;
+
+import lexa.core.controller.Environment;
+import lexa.core.controller.Arguments;
 
 /**
  * Get help on a subject
  * @author william
  * @since 2017-06
  */
-public class Help
+class Help
         extends Command
 {
 
-    public Help(Environment environment, Arguments arguments)
+    private static final String HELP_LIST = "-l";
+
+    Help(Environment environment, Arguments arguments)
     {
         super(environment, arguments);
     }
 
 
     @Override
-    void execute()
+    public void execute()
     {
         System.out.print(this.loadHelpText());
         System.out.print("\n\n");
@@ -40,7 +45,7 @@ public class Help
             return help;
         }
 
-        if (this.arguments.get(0).equals("-c"))
+        if (HELP_LIST.equals(this.arguments.get(0)))
         {
             return this.environment.getHelpSummary(new Arguments(arguments));
         }

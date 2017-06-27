@@ -7,7 +7,7 @@ lx - lexa command handler\
     prompt and the user can execute multiple commands.\
 \
 command\
-    the command to execute; see 'help command' for details.\
+    the command to execute; see 'help -l' for details.\
 \
 
 # a blank line is needed above for the line feed.

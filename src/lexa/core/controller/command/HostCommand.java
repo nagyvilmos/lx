@@ -7,7 +7,12 @@
  * Created: February 2017
  *==============================================================================
  */
-package lexa.core.controller;
+package lexa.core.controller.command;
+
+import lexa.core.controller.Arguments;
+import lexa.core.controller.Environment;
+import lexa.core.controller.command.InvalidCommand;
+import lexa.core.controller.command.Command;
 
 /**
  * A command to deal with a host
@@ -23,7 +28,7 @@ abstract class HostCommand
     }
 
     @Override
-    Command validate()
+    public Command validate()
     {
         if (this.environment.getCurrentHost().isEmpty() && this.arguments.get(0).isEmpty())
         {

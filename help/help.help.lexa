@@ -1,18 +1,18 @@
 summary - help for the lx environment.
 help \
 help - help for the lx environment\
-    help [-c] [<command>]\
+    help [[-l] [<command>]|[override]\
     Show help for an lx command.\
-\
--c\
-    gives summary information for available commands.  With a command, the summary\
-    will be for the commands help option.\
-\
+
+-l \
+    gives summary information for available commands.\
+
 command\
     the name of an lx command; this may include attributes and the most detailed\
     level of help will be given\
-\
-The text returned for any help can be overriden in the file\
-'lx.help.config' or in one of its included files.  User defined \
-help topics can also be added if required.  See 'help override' for details.
+    \
+    The text returned for any help can be overriden in the file\
+    'lx.help.config' or in one of its included files.  User defined \
+    help topics can also be added if required.  See 'help override' for details.\
 
+# a blank line is needed above for the line feed.

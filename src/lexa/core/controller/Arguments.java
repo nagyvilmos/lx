@@ -17,15 +17,15 @@ import java.util.List;
  * @author william
  * @since 2017-06
  */
-class Arguments {
+public class Arguments {
     protected final List<String> arguments;
     private final Arguments parent;
     private final int size;
-    Arguments()
+    public Arguments()
     {
         this(new ArrayList());
     }
-    Arguments(String arguments)
+    public Arguments(String arguments)
     {
         this.parent=null;
         // create an array:
@@ -88,14 +88,14 @@ class Arguments {
         this.size = this.arguments.size();
     }
 
-    Arguments(List<String> arguments)
+    public Arguments(List<String> arguments)
     {
         this.parent=null;
         this.arguments=arguments;
         this.size = this.arguments.size();
     }
 
-    Arguments(Arguments parent)
+    public Arguments(Arguments parent)
     {
         this.parent = parent;
         this.arguments=null;
@@ -103,12 +103,12 @@ class Arguments {
                 this.parent.size()-1 : 0;
     }
 
-    boolean isEmpty()
+    public boolean isEmpty()
     {
         return (this.size == 0);
     }
 
-    String get(int arg)
+    public String get(int arg)
     {
         if (this.parent != null)
         {
@@ -121,7 +121,7 @@ class Arguments {
         return this.arguments.get(arg);
     }
 
-    int size()
+    public int size()
     {
         return this.size;
     }
