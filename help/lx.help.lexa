@@ -1,0 +1,13 @@
+summary - lexa command handler
+help \
+lx - lexa command handler\
+    lx [command]\
+    Run the command handler for the given command.\
+    If no command is provided, then lx opens up with the command\
+    prompt and the user can execute multiple commands.\
+\
+command\
+    the command to execute; see 'help command' for details.\
+\
+
+# a blank line is needed above for the line feed.

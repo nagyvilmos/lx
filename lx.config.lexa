@@ -1,0 +1,18 @@
+loaded @ 2017-02-20 17:46:00.972 +0000
+saved @ 2017-02-20 17:52:49.501 +0000
+hostConfig {
+	test {
+		hostFile - test.server.lexa
+		status \
+\?
+		updated @ 2017-02-20 17:44:17.229 +0000
+	}
+	second {
+		hostFile - test.server_1.lexa
+		status \
+\?
+		updated @ 2017-02-20 17:47:50.509 +0000
+	}
+}
+hostName - test
+

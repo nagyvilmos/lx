@@ -1,0 +1,37 @@
+summary - control the host environment
+
+# additional help context
+config {
+    help \
+The format for a host config file is:\
+\
+[logFile <name of log file, should be specified if running the host interactively]
+[logging
+name test.host
+server {
+    port % 31066
+    localHostOnly ? true
+}
+broker {
+    name hostEchoTest
+    serviceList {
+        echoService {
+            processList {
+                echo {
+                    loader - lexa.core.server.factory.InternalLoader
+					class - Echo
+                    maxProcesses % 1
+                }
+            }
+        }
+    }
+    logging {
+        * {
+            * ? true
+    #        DEBUG ? false
+        }
+    }
+}
+}
+
+# a blank line is needed above for the line feed.

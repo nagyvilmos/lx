@@ -1,0 +1,4 @@
+summary - exit the command environment
+help \
+exit - exit the command environment\
+    This command takes no arguments
