@@ -162,7 +162,8 @@ public final class Environment {
             hostConfig.put("status","nocnnct");
         } else
         {
-            hostConfig.put("status","offline");
+            throw new IllegalArgumentException("cannot check status");
+            //hostConfig.put("status","offline");
         }
         return hostConfig.getString("status");
     }

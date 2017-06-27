@@ -80,7 +80,7 @@ class Host
                 String suffix = (hostName.length() < 11) ?
                     "          ".substring(0,(11-hostName.length())) : " ";
                 System.out.println(prefix + hostName + suffix +
-                        this.environment.getHostStatus(host) + " " +
+                        this.environment.getHostStatus(hostName) + " " +
                         this.environment.getHostFile(hostName));
             }
         }

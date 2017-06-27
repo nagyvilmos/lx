@@ -28,9 +28,20 @@ public class ConsoleCommandEntry
     public void execute()
     {
         this.openConsole();
-        while (environment.isRunning())
+        int badCommandCount = 0;
+        while (environment.isRunning() && badCommandCount < 3)
         {
-            this.execeteCommand();
+            try
+            {
+                this.executeCommamd();
+                badCommandCount = 0;
+            }
+            catch (Exception ex)
+            {
+                // really shouldn't hit here!
+                ex.printStackTrace(System.out);
+                badCommandCount++;
+            }
         }
         this.closeConsole();
     }
@@ -49,7 +60,7 @@ public class ConsoleCommandEntry
         System.out.println("lx closed");
     }
 
-    private void execeteCommand()
+    private void executeCommamd()
     {
         System.out.print(this.environment.getPrompt());
         String commandText;
