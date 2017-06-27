@@ -13,6 +13,7 @@ import lexa.core.controller.Environment;
 import java.io.IOException;
 import lexa.core.controller.Arguments;
 import lexa.core.controller.launcher.JavaProcessLauncher;
+import lexa.core.data.exception.DataException;
 
 /**
  * Start a host
@@ -31,11 +32,15 @@ public class Start
     public void execute() {
         try
         {
-            JavaProcessLauncher.launch("lxhost.HostApp", false, this.getHostFile());
+            JavaProcessLauncher.launch(
+                    "lxhost.HostApp", false, this.environment.isRunInternal(),
+                    this.getHostFile().getAbsolutePath());
+            this.environment.connect(this.getHostName());
+            this.environment.setCurrentHost(this.getHostName());
         }
-        catch (IOException | InterruptedException ex)
+        catch (IOException | InterruptedException | DataException ex)
         {
-             this.handleException("Unable to launch host", ex);
+             this.handleException("Unable to start host", ex);
         }
     }
 }

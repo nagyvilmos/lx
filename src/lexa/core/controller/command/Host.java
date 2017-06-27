@@ -64,25 +64,28 @@ class Host
 
     private void executeList()
     {
+        String host = this.environment.getCurrentHost();
         if (!this.arguments.get(1).isEmpty())
         {
-            String host = this.arguments.get(1);
-            System.out.println("Host  : " + host);
-            System.out.println("File  : " + this.environment.getHostFile(host));
-            System.out.println("Status: " + this.environment.getHostStatus(host));
-            System.out.println("Update: " + this.environment.getHostUpdateDate(host));
+            String hostName = this.arguments.get(1);
+            String current = (host.equals(hostName)) ?
+                    "  * current active host" :
+                    "";
+            System.out.println("Host  : " + hostName + current);
+            System.out.println("File  : " + this.environment.getHostFile(hostName));
+            System.out.println("Status: " + this.environment.getHostStatus(hostName));
+            System.out.println("Update: " + this.environment.getHostUpdateDate(hostName));
         }
         else
         {
-            String host = this.environment.getCurrentHost();
             for (String hostName : this.environment.getHostNames())
             {
                 String prefix = (host.equals(hostName)) ?
                     "* " : "  ";
                 String suffix = (hostName.length() < 11) ?
-                    "          ".substring(0,(11-hostName.length())) : " ";
+                    "           ".substring(0,(11-hostName.length())) : "  ";
                 System.out.println(prefix + hostName + suffix +
-                        this.environment.getHostStatus(hostName) + " " +
+                        this.environment.getHostStatus(hostName) + "  " +
                         this.environment.getHostFile(hostName));
             }
         }

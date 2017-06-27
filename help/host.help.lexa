@@ -1,8 +1,42 @@
 summary - control the host environment
 
 help \
+host - select the working host\
+    host [[-l|-a|-r] [<host>]\
+    With no arguemts, this lists current hosts\
+\
+-l      list host statuses\
+-a      add a new host configuration\
+-r      remove a host configuration\
+host    a host name\
+\
+For more information see `help -l host`
 
+list {
+    summary - list host statuses
+    help \
+List the status for one or more hosts\
+    host -l\
+        List all of the hosts & their statuses\
+    host -l <host>\
+        List the status for the given host name
+}
 
+add {
+    summary - add a new host configuration
+    help \
+Add a new host configuration
+    host -a <host> <file>
+        Adds the host with it's configuration to the list
+        of hosts.
+}
+
+remove {
+    summary - remove a host configuration
+    help \
+
+}
+ 
 # additional help context
 config {
     summary - the layout for a config file

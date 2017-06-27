@@ -20,6 +20,9 @@ public class Env
         extends Command
 {
 
+    private String setting;
+    private Object value;
+
     public Env(Environment environment, Arguments arguments)
     {
         super(environment, arguments);
@@ -40,6 +43,11 @@ public class Env
                 this.environment.save();
                 break;
             }
+            case "set" :
+            {
+                this.executeSet();
+                break;
+            }
         }
         this.environment.getSettings().printFormatted(System.out);
     }
@@ -47,14 +55,57 @@ public class Env
     @Override
     public Command validate()
     {
-        if (this.arguments.size() > 1 || (
-                !this.arguments.get(0).isEmpty() &&
-                !this.arguments.get(0).equals("load") &&
-                !this.arguments.get(0).equals("save")))
+        String message = "format - env [load|save|set <setting> <value>]";
+        if (this.arguments.size() < 2)
         {
-            return new InvalidCommand(environment, "format - env ['load'|'save']");
+            if (!this.arguments.get(0).isEmpty() &&
+                    !this.arguments.get(0).equals("load") &&
+                    !this.arguments.get(0).equals("save"))
+            {
+                return new InvalidCommand(environment, message);
+            }
         }
-        return super.validate(); //To change body of generated methods, choose Tools | Templates.
+        else if (this.arguments.size() != 3 ||
+                !this.arguments.get(0).equals("set") ||
+                !this.validateSet())
+        {
+            return new InvalidCommand(environment, message);
+        }
+        return super.validate();
+    }
+
+    private void executeSet()
+    {
+       this.environment.getSettings().put(this.setting, this.value);
+    }
+
+    private boolean validateSet()
+    {
+        this.setting = this.arguments.get(1);
+        switch (this.setting)
+        {
+            case "autoLoad" :
+            case "keepHost" :
+            case "runInternal" :
+            {
+                return this.validateSetBoolean();
+            }
+        }
+        return false;
+    }
+
+    private boolean validateSetBoolean()
+    {
+        String valStr = this.arguments.get(2);
+        try
+        {
+            this.value = Boolean.parseBoolean(valStr);
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+        return true;
     }
 
 }

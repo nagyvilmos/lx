@@ -140,11 +140,11 @@ public final class Environment {
         return sb.toString();
     }
 
-    public String getHostFile(String hostName)
+    public File getHostFile(String hostName)
     {
-        return this.envData.getDataSet("hostConfig")
+        return new File(this.envData.getDataSet("hostConfig")
                 .getDataSet(hostName)
-                .getString("hostFile");
+                .getString("hostFile"));
     }
 
     public String[] getHostNames()
@@ -160,7 +160,7 @@ public final class Environment {
                 .getDataSet(hostName);
         if (!this.sessionList.containsKey(hostName))
         {
-            hostConfig.put("status","nocnnct");
+            hostConfig.put("status","unknown");
         } else
         {
             throw new IllegalArgumentException("cannot check status");
@@ -226,6 +226,15 @@ public final class Environment {
         return this.runnng;
     }
 
+    public boolean isRunInternal()
+    {
+        return this.envData.getBoolean("runInternal");
+    }
+    public void setRunInternal(boolean internal)
+    {
+        this.config.put("runInternal", internal);
+    }
+
     public void close()
     {
         this.runnng=false;
@@ -280,6 +289,10 @@ public final class Environment {
         {
             this.envData.put("hostName", "");
         }
+        if (!this.envData.contains("runInternal"))
+        {
+            this.envData.put("runInternal", "false");
+        }
         this.setPrompt(this.envData.getString("hostName"));
 
         for (Session session : this.sessionList.values())
@@ -312,7 +325,7 @@ public final class Environment {
         }
     }
 
-    private DataSet loadConfig(String block, String config, String fileName)
+    private DataSet loadConfig(String block, String config, File configFile)
     {
         // get the data either cached or from the file
         DataSet blockDs;
@@ -326,7 +339,7 @@ public final class Environment {
             try
             {
                 blockDs.put(config,
-                        new DataReader(new File(fileName)).read());
+                        new DataReader(configFile).read());
             }
             catch (IOException ex)
             {

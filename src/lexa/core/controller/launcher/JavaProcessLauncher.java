@@ -19,12 +19,25 @@ public final class JavaProcessLauncher {
 
     private JavaProcessLauncher() {}
 
-    public static int launch(Class launchClass, boolean wait, String ... args) throws IOException,
+    public static int launch(Class launchClass, boolean wait, boolean internal,String ... args) throws IOException,
                                                InterruptedException
     {
-        return launch(launchClass.getCanonicalName(), wait, args);
+        return launch(launchClass.getCanonicalName(), wait, internal, args);
     }
-    public static int launch(String className, boolean wait, String ... args)
+    public static int launch(String className, boolean wait, boolean internal, String ... args)
+            throws IOException,
+            InterruptedException
+    {
+        if (internal)
+        {
+            return JavaProcessLauncher.launchInternal(className, wait, args);
+        }
+        else
+        {
+            return JavaProcessLauncher.launchExternal(className, wait, args);
+        }
+    }
+    private static int launchExternal(String className, boolean wait, String ... args)
             throws IOException,
             InterruptedException
     {
@@ -52,10 +65,18 @@ public final class JavaProcessLauncher {
         Process process = builder.start();
         if (!wait)
         {
-            return 0;
+            if (process.isAlive())
+                return 0;
+            else
+                return -1;
         }
         process.waitFor();
         return process.exitValue();
+    }
+
+    private static int launchInternal(String className, boolean wait, String[] args)
+    {
+        throw new UnsupportedOperationException("JavaProcessLauncher.launchInternal not supported yet.");
     }
 
 }

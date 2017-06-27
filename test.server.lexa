@@ -9,7 +9,7 @@
 # Author:  William Norman-Walker
 # Created: August 2013
 #===============================================================================
-logFile log/test.server.log
+#logFile log/test.server.log
 name test.host
 server {
     port % 31066
