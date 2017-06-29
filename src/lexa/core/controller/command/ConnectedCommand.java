@@ -28,7 +28,7 @@ public abstract class ConnectedCommand
         super(environment, arguments);
     }
 //    @Override
-//    public void execute() {
+//    public void submit() {
 //        try {
 //            this.open();
 //        } catch (IOException ex) {

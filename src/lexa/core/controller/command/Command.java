@@ -33,12 +33,40 @@ public abstract class Command
         ex.printStackTrace(System.out);
     }
 
+    /**
+     * Execute the command.
+     * <br>
+     * This is the same as calling @{code this.validate().submit();}
+     *
+     * @see #validate()
+     * @see #submit()
+     */
+    public final void execute()
+    {
+        this
+                .validate()
+                .submit();
+    }
+
+    /**
+     * Validate a command
+     * <br>
+     * Check that the command and its arguments are correct, this can return an
+     * alternative command to execute.  When the validation fails, this will
+     * normally return a {@link InvalidCommand} to handle the output.
+     *
+     * @return the command to be executed after valid.ting this.
+     */
     public Command validate()
     {
         return this;
     }
 
-    public abstract void execute();
+    /**
+     * Submit a command to be processed
+     * Once submitted, the command is assumed to have been validated already
+     */
+    public abstract void submit();
 
     public static Command getCommand(Environment environment, Arguments arguments)
     {
@@ -53,6 +81,6 @@ public abstract class Command
             case "restart" :    return new Restart  (environment, new Arguments(arguments));
             case "exit" :       return new Exit     (environment, new Arguments(arguments));
         }
-        return new InvalidCommand(environment, arguments);
+        return InvalidCommand.command(environment, arguments);
     }
 }

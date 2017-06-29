@@ -29,7 +29,7 @@ public class Env
     }
 
     @Override
-    public void execute()
+    public void submit()
     {
         switch (this.arguments.get(0))
         {
@@ -62,14 +62,14 @@ public class Env
                     !this.arguments.get(0).equals("load") &&
                     !this.arguments.get(0).equals("save"))
             {
-                return new InvalidCommand(environment, message);
+                return InvalidCommand.command(environment, message);
             }
         }
         else if (this.arguments.size() != 3 ||
                 !this.arguments.get(0).equals("set") ||
                 !this.validateSet())
         {
-            return new InvalidCommand(environment, message);
+            return InvalidCommand.command(environment, message);
         }
         return super.validate();
     }

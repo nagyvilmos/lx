@@ -30,7 +30,7 @@ class Help
 
 
     @Override
-    public void execute()
+    public void submit()
     {
         System.out.print(this.loadHelpText());
         System.out.print("\n\n");

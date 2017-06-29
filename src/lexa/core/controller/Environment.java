@@ -39,9 +39,9 @@ public final class Environment {
     private final Map<String, Session> sessionList;
 
 
-    private DataSet envData;
+    private DataSet environment;
     private DataSet helpData;
-    private DataSet config; // any loaded config files;
+    private DataSet hostConfig; // any loaded config files;
     private String prompt;
     private boolean runnng;
 
@@ -72,7 +72,7 @@ public final class Environment {
 
     public void setCurrentHost(String hostName)
     {
-        this.envData.put("hostName",hostName);
+        this.environment.put("hostName",hostName);
         this.setPrompt(hostName);
     }
 
@@ -142,20 +142,20 @@ public final class Environment {
 
     public File getHostFile(String hostName)
     {
-        return new File(this.envData.getDataSet("hostConfig")
+        return new File(this.environment.getDataSet("hostConfig")
                 .getDataSet(hostName)
                 .getString("hostFile"));
     }
 
     public String[] getHostNames()
     {
-        return this.envData.getDataSet("hostConfig").keys();
+        return this.environment.getDataSet("hostConfig").keys();
     }
 
     public String getHostStatus(String hostName)
     {
         // do we have a connection?
-        DataSet hostConfig = this.envData
+        DataSet hostConfig = this.environment
                 .getDataSet("hostConfig")
                 .getDataSet(hostName);
         if (!this.sessionList.containsKey(hostName))
@@ -171,7 +171,7 @@ public final class Environment {
 
     public Date getHostUpdateDate(String hostName)
     {
-        return this.envData.getDataSet("hostConfig")
+        return this.environment.getDataSet("hostConfig")
                 .getDataSet(hostName)
                 .getDate("updated");
     }
@@ -183,12 +183,12 @@ public final class Environment {
 
     public DataSet getSettings()
     {
-        return this.envData;
+        return this.environment;
     }
 
     public String getCurrentHost()
     {
-        return this.envData.getString("hostName");
+        return this.environment.getString("hostName");
     }
 
     public String getHelp(Arguments args)
@@ -217,22 +217,13 @@ public final class Environment {
 
     public boolean isHost(String hostName)
     {
-        return this.envData.getDataSet("hostConfig")
+        return this.environment.getDataSet("hostConfig")
                 .contains(hostName);
     }
 
     public boolean isRunning()
     {
         return this.runnng;
-    }
-
-    public boolean isRunInternal()
-    {
-        return this.envData.getBoolean("runInternal");
-    }
-    public void setRunInternal(boolean internal)
-    {
-        this.config.put("runInternal", internal);
     }
 
     public void close()
@@ -242,12 +233,12 @@ public final class Environment {
 
     public void save()
     {
-        this.envData.put("saved",new Date());
+        this.environment.put("saved",new Date());
         DataWriter dw = null;
         try
         {
             dw = new DataWriter(this.envFile);
-            dw.write(this.envData);
+            dw.write(this.environment);
         }
         catch (IOException ex)
         {
@@ -268,32 +259,28 @@ public final class Environment {
 
     public void load()
     {
-        this.config = new ArrayDataSet();
+        this.hostConfig = new ArrayDataSet();
         this.helpData = loadFile(this.helpFile);
-        this.envData = loadFile(this.envFile);
-        this.envData.put("loaded",new Date());
-        if (!this.envData.contains("hostConfig"))
+        this.environment = loadFile(this.envFile);
+        this.environment.put("loaded",new Date());
+        if (!this.environment.contains("hostConfig"))
         {
-            this.envData.put("hostConfig", new ArrayDataSet());
+            this.environment.put("hostConfig", new ArrayDataSet());
         }
 
-        if (!this.envData.contains("autoLoad"))
+        if (!this.environment.contains("autoLoad"))
         {
-            this.envData.put("autoLoad", false);
+            this.environment.put("autoLoad", false);
         }
-        if (!this.envData.contains("keepHost"))
+        if (!this.environment.contains("keepHost"))
         {
-            this.envData.put("keepHost", false);
+            this.environment.put("keepHost", false);
         }
-        if (!this.envData.contains("hostName") || !this.envData.getBoolean("keepHost"))
+        if (!this.environment.contains("hostName") || !this.environment.getBoolean("keepHost"))
         {
-            this.envData.put("hostName", "");
+            this.environment.put("hostName", "");
         }
-        if (!this.envData.contains("runInternal"))
-        {
-            this.envData.put("runInternal", "false");
-        }
-        this.setPrompt(this.envData.getString("hostName"));
+        this.setPrompt(this.environment.getString("hostName"));
 
         for (Session session : this.sessionList.values())
         {
@@ -304,7 +291,7 @@ public final class Environment {
 
     public void setHost(String hostName, String hostFile)
     {
-        this.envData.getDataSet("hostConfig")
+        this.environment.getDataSet("hostConfig")
                 .put(hostName,
                         new ArrayDataSet()
                             .put("hostFile",hostFile)
@@ -329,11 +316,11 @@ public final class Environment {
     {
         // get the data either cached or from the file
         DataSet blockDs;
-        if (!this.config.contains(block))
+        if (!this.hostConfig.contains(block))
         {
-            this.config.put(block, new ArrayDataSet() );
+            this.hostConfig.put(block, new ArrayDataSet() );
         }
-        blockDs = this.config.getDataSet(block);
+        blockDs = this.hostConfig.getDataSet(block);
         if (!blockDs.contains(config))
         {
             try

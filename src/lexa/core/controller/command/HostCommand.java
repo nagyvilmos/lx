@@ -33,16 +33,16 @@ abstract class HostCommand
     {
         if (this.arguments.size() > 1)
         {
-            return new InvalidCommand(environment, "Only one host can be provided");
+            return InvalidCommand.command(environment, "Only one host can be provided");
         }
         String hostName = this.arguments.get(0);
         if (this.environment.getCurrentHost().isEmpty() && hostName.isEmpty())
         {
-            return new InvalidCommand(environment, "Missing host name");
+            return InvalidCommand.command(environment, "Missing host name");
         }
         if (!hostName.isEmpty() &&  !this.environment.isHost(hostName))
         {
-            return new InvalidCommand(environment, "Unknown host name");
+            return InvalidCommand.command(environment, "Unknown host name");
         }
         return super.validate();
     }

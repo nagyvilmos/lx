@@ -11,6 +11,7 @@ package lexa.core.controller.launcher;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,26 +20,18 @@ public final class JavaProcessLauncher {
 
     private JavaProcessLauncher() {}
 
-    public static int launch(Class launchClass, boolean wait, boolean internal,String ... args) throws IOException,
-                                               InterruptedException
+    public static int launch(Class launchClass, boolean wait, String ... args)
+        throws IOException,
+            InterruptedException,
+            ClassNotFoundException,
+            IllegalAccessException,
+            IllegalArgumentException,
+            InvocationTargetException
     {
-        return launch(launchClass.getCanonicalName(), wait, internal, args);
+        return launch(launchClass.getCanonicalName(), wait, args);
     }
-    public static int launch(String className, boolean wait, boolean internal, String ... args)
-            throws IOException,
-            InterruptedException
-    {
-        if (internal)
-        {
-            return JavaProcessLauncher.launchInternal(className, wait, args);
-        }
-        else
-        {
-            return JavaProcessLauncher.launchExternal(className, wait, args);
-        }
-    }
-    private static int launchExternal(String className, boolean wait, String ... args)
-            throws IOException,
+    public static int launch(String className, boolean wait, String ... args)
+        throws IOException,
             InterruptedException
     {
         String javaHome = System.getProperty("java.home");
@@ -72,11 +65,6 @@ public final class JavaProcessLauncher {
         }
         process.waitFor();
         return process.exitValue();
-    }
-
-    private static int launchInternal(String className, boolean wait, String[] args)
-    {
-        throw new UnsupportedOperationException("JavaProcessLauncher.launchInternal not supported yet.");
     }
 
 }

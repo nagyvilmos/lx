@@ -24,6 +24,9 @@ class Host
     private final static String ARG_ADD = "-a";
     private final static String ARG_REMOVE = "-r";
     private final static String ARG_LIST = "-l";
+    private String fileName;
+    private String option;
+    private String selected;
 
     public Host(Environment environment, Arguments arguments)
     {
@@ -31,11 +34,10 @@ class Host
     }
 
     @Override
-    public void execute()
+    public void submit()
     {
-        switch (this.arguments.get(0))
+        switch (this.option)
         {
-            case "" :
             case ARG_LIST: break; //just list them
             case ARG_ADD :
             {
@@ -49,6 +51,10 @@ class Host
             }
             default :
             {
+                if (this.selected.isEmpty())
+                {
+                    break;
+                }
                 this.environment.setCurrentHost(this.arguments.get(0));
             }
         }
@@ -57,24 +63,26 @@ class Host
 
     private void executeAdd()
     {
-        this.environment.setHost(this.arguments.get(1), this.arguments.get(2));
-        this.environment.setCurrentHost(this.arguments.get(1));
-        this.executeList();
+        this.environment.setHost(this.selected, this.fileName);
+        this.environment.setCurrentHost(this.selected);
     }
 
     private void executeList()
     {
         String host = this.environment.getCurrentHost();
-        if (!this.arguments.get(1).isEmpty())
+        if (!this.selected.isEmpty())
         {
-            String hostName = this.arguments.get(1);
-            String current = (host.equals(hostName)) ?
+            String current = (host.equals(this.selected)) ?
                     "  * current active host" :
                     "";
-            System.out.println("Host  : " + hostName + current);
-            System.out.println("File  : " + this.environment.getHostFile(hostName));
-            System.out.println("Status: " + this.environment.getHostStatus(hostName));
-            System.out.println("Update: " + this.environment.getHostUpdateDate(hostName));
+            System.out.println("Host  : " +
+                    this.selected + current);
+            System.out.println("File  : " +
+                    this.environment.getHostFile(this.selected));
+            System.out.println("Status: " +
+                    this.environment.getHostStatus(this.selected));
+            System.out.println("Update: " +
+                    this.environment.getHostUpdateDate(this.selected));
         }
         else
         {
@@ -97,32 +105,35 @@ class Host
         throw new UnsupportedOperationException("Host.executeRemove not supported yet.");
     }
 
-    private boolean validateHostName(String hostName, boolean exists)
+    private boolean validateHostName(boolean exists)
     {
-        if (this.environment.isHost(hostName))
+        if (this.environment.isHost(this.selected))
         {
-            return true; // already exists
+            return exists; // already exists
         }
         if (exists)
         {
             return false;
         }
 
-        return (hostName.matches("^[\\w]+$"));
+        return (this.selected.matches("^[\\w]+$"));
     }
-    private boolean validateHostFile(String hostName, String hostFile)
+
+    private boolean validateHostFile()
     {
-        if (!this.validateHostName(hostName, false) ||
-                !new File(hostFile).exists())
+        if (!this.validateHostName(false) ||
+                !new File(this.fileName).exists() ||
+                this.arguments.size() != 3)
         {
             return false; // invalid name or missing file
         }
+
         // check if the host file is set to a different host
         for (String host : this.environment.getHostNames())
         {
-            if (this.environment.getHostFile(host).equals(hostFile))
+            if (this.environment.getHostFile(host).equals(this.fileName))
             {
-                return host.equals(hostName);
+                return host.equals(this.selected);
             }
         }
         return true; // no one has the file
@@ -131,49 +142,70 @@ class Host
     @Override
     public Command validate()
     {
-        switch (this.arguments.get(0))
+        if (this.arguments.isEmpty())
         {
-            case "" : break; // simplest case, same as host -l
+            this.option = ARG_LIST;
+            this.selected = "";
+        }
+        else if (this.arguments.get(0).charAt(0) == '-')
+        {
+            this.option = this.arguments.get(0);
+            this.selected = this.arguments.get(1);
+            this.fileName = this.arguments.get(2);
+        }
+        else
+        {
+            this.option = "";
+            this.selected = this.arguments.get(0);
+        }
+
+        switch (this.option)
+        {
             case ARG_ADD :
             {
-                if (this.validateHostFile(
-                        this.arguments.get(1),
-                        this.arguments.get(2)))
+                if (this.arguments.size() == 3 &&
+                        this.validateHostFile())
                 {
                     break;
                 }
-                return new InvalidCommand(environment,
+                return InvalidCommand.command(environment,
                         "Invalid name or path for host '" +
                         new Arguments(this.arguments).toString() + "'"
                 );
             }
             case ARG_LIST :
             {
-                if (this.arguments.get(1).isEmpty())
+                if (this.arguments.size() < 3 &&
+                        (this.selected.isEmpty() ||
+                        this.validateHostName(true)))
                 {
                     break;
                 }
-                // carry on as both -l and -r now need a valid
+                return InvalidCommand.command(environment,
+                        "Invalid name or path for host '" +
+                        new Arguments(this.arguments).toString() + "'"
+                );
             }
             case ARG_REMOVE :
             {
                 if (this.arguments.size() == 2 &&
-                        this.validateHostName(this.arguments.get(1), true))
+                        this.validateHostName(true))
                 {
                     break;
                 }
-                return new InvalidCommand(environment,
+                return InvalidCommand.command(environment,
                         "Invalid host '" +
                         new Arguments(this.arguments).toString() + "'"
                 );
             }
             default :
             {
-                if (this.validateHostName(this.arguments.get(0), true))
+                if (this.validateHostName(true) &&
+                        this.arguments.size() == 1)
                 {
                     break;
                 }
-                return new InvalidCommand(environment,
+                return InvalidCommand.command(environment,
                         "Invalid host name '" +
                         this.arguments.toString() + "'"
                 );

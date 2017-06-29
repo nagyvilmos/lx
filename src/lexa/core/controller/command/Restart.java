@@ -24,7 +24,7 @@ public class Restart extends HostCommand {
         super(environment, arguments);
     }
     @Override
-    public void execute() {
+    public void submit() {
 //        HostCommand stop = new Stop(this.environment, this.arguments);
 //        stop.initialise(this.hostConfig, this.command);
 //        stop.execute();

@@ -29,14 +29,14 @@ class Exit extends Command {
     {
         if (this.arguments.size() > 1)
         {
-            return new InvalidCommand(this.environment, "invalid command arguments");
+            return InvalidCommand.command(this.environment, "invalid command arguments");
         }
         return super.validate();
     }
 
 
     @Override
-    public void execute()
+    public void submit()
     {
         this.environment.close();
     }

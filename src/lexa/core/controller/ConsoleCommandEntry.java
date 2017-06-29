@@ -76,7 +76,6 @@ public class ConsoleCommandEntry
             return;
         }
         Command.getCommand(this.environment, new Arguments(commandText))
-                .validate()
                 .execute();
     }
 

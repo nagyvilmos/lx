@@ -35,7 +35,7 @@ class Connect extends Command {
             {
                 if (this.environment.getCurrentHost().isEmpty())
                 {
-                    return new InvalidCommand(environment, "Unknown host");
+                    return InvalidCommand.command(environment, "Unknown host");
                 }
                 break;
 
@@ -47,7 +47,7 @@ class Connect extends Command {
                 {
                     break;
                 }
-                return new InvalidCommand(environment, "Unknown host " +
+                return InvalidCommand.command(environment, "Unknown host " +
                         this.arguments.toString());
             }
         }
@@ -56,7 +56,7 @@ class Connect extends Command {
 
 
     @Override
-    public void execute()
+    public void submit()
     {
         String host = this.arguments.get(0).isEmpty() ?
                     this.environment.getCurrentHost() :
@@ -67,13 +67,14 @@ class Connect extends Command {
         }
         catch (IOException | DataException ex)
         {
-            new InvalidCommand(this.environment,
-                    "Unable to connect to host server " + host +
-                    "\nException:\n" + ex.getLocalizedMessage()
-            ).execute();
+            InvalidCommand.command(this.environment,
+                    "Unable to connect to host server '" + host +
+                    "'\nException:\n" + ex.getLocalizedMessage()
+            ).submit();
         }
         // now call host
-        new Host(environment, new Arguments()).execute();
+        new Host(environment,
+                new Arguments(host)).execute();
     }
 
 }

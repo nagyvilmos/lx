@@ -19,6 +19,8 @@ import lexa.core.controller.Arguments;
  */
 class InvalidCommand extends Command {
 
+    private String message;
+
     public InvalidCommand(Environment environment, String arguments)
     {
         this(environment, new Arguments(arguments));
@@ -30,14 +32,32 @@ class InvalidCommand extends Command {
     }
 
     @Override
-    public void execute()
+    public Command validate()
     {
-        if (this.arguments.isEmpty())
+        this.message = this.arguments.toString();
+        return super.validate();
+    }
+
+    @Override
+    public void submit()
+    {
+        if (this.message.isEmpty())
         {
             return;
         }
         System.out.print("Invalid command:");
 
-        System.out.println(this.arguments.toString());
+        System.out.println(this.message);
     }
+
+
+    public static Command command(Environment environment, String arguments)
+    {
+        return new InvalidCommand(environment, arguments).validate();
+    }
+    public static Command command(Environment environment, Arguments arguments)
+    {
+        return new InvalidCommand(environment, arguments).validate();
+    }
+
 }

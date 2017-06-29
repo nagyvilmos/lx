@@ -29,11 +29,10 @@ public class Start
 
 
     @Override
-    public void execute() {
+    public void submit() {
         try
         {
-            JavaProcessLauncher.launch(
-                    "lxhost.HostApp", false, this.environment.isRunInternal(),
+            JavaProcessLauncher.launch("lxhost.HostApp", false,
                     this.getHostFile().getAbsolutePath());
             this.environment.connect(this.getHostName());
             this.environment.setCurrentHost(this.getHostName());
