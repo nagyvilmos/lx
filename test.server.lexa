@@ -19,10 +19,11 @@ broker {
     name hostEchoTest
     serviceList [
         {
+            name - echoService
             processList [
                 {
                     name - echo
-                    loader - lexa.core.server.factory.InternalLoader
+                    loader - lexa.core.process.factory.InternalLoader
 					class - Echo
                     maxProcesses % 1
                 }
