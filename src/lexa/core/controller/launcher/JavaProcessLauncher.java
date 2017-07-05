@@ -15,12 +15,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public final class JavaProcessLauncher {
 
     private JavaProcessLauncher() {}
 
-    public static int launch(Class launchClass, boolean wait, String ... args)
+    public static Process launch(Class launchClass, boolean wait, String ... args)
         throws IOException,
             InterruptedException,
             ClassNotFoundException,
@@ -30,7 +31,7 @@ public final class JavaProcessLauncher {
     {
         return launch(launchClass.getCanonicalName(), wait, args);
     }
-    public static int launch(String className, boolean wait, String ... args)
+    public static synchronized Process launch(String className, boolean wait, String ... args)
         throws IOException,
             InterruptedException
     {
@@ -38,13 +39,13 @@ public final class JavaProcessLauncher {
         String javaBin = javaHome +
                 File.separator + "bin" +
                 File.separator + "java";
+
         String classpath =  System.getProperty("user.home") +
                 File.separator + "Documents" +
                 File.separator + "lexa" +
                 File.separator + "core" +
-                File.separator + "bin";
-                //System.getProperty("java.class.path");
-        //String className = launchClass.getCanonicalName();
+                File.separator + "bin" +
+                File.separator + "*";
 
         List<String> processArguments = new ArrayList();
         processArguments.add(javaBin);
@@ -52,19 +53,36 @@ public final class JavaProcessLauncher {
         processArguments.add(classpath);
         processArguments.add(className);
         processArguments.addAll(Arrays.asList(args));
-        //ProcessBuilder builder = new ProcessBuilder(
-        //        javaBin, "-cp", classpath, className);
+
         ProcessBuilder builder = new ProcessBuilder(processArguments);
+        builder.inheritIO();
         Process process = builder.start();
-        if (!wait)
+
+        if (wait)
         {
-            if (process.isAlive())
-                return 0;
-            else
-                return -1;
+            process.waitFor();
         }
-        process.waitFor();
-        return process.exitValue();
+        else
+        {
+            // allow it time to at least start
+            process.waitFor(250, TimeUnit.MILLISECONDS);
+        }
+
+        return process;
     }
 
+
+    public static Process exec(String className, String ... args) throws IOException,
+                                               InterruptedException {
+        String javaHome = System.getProperty("java.home");
+        String javaBin = javaHome +
+                File.separator + "bin" +
+                File.separator + "java";
+        String classpath = System.getProperty("java.class.path");
+
+        ProcessBuilder builder = new ProcessBuilder(
+                javaBin, "-cp", classpath, className);
+
+        return builder.start();
+    }
 }

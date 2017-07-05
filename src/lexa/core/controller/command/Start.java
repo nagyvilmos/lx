@@ -32,10 +32,18 @@ public class Start
     public void submit() {
         try
         {
-            JavaProcessLauncher.launch("lxhost.HostApp", false,
-                    this.getHostFile().getAbsolutePath());
-            this.environment.connect(this.getHostName());
             this.environment.setCurrentHost(this.getHostName());
+            Process process = JavaProcessLauncher.launch("lxhost.HostApp", false,
+                    this.getHostFile().getAbsolutePath());
+            if (process.isAlive())
+            {
+                this.environment.connect(this.getHostName());
+            }
+            else
+            {
+                System.out.println("Failed to start '" + this.getHostName() + "'");
+            }
+
         }
         catch (IOException | InterruptedException | DataException ex)
         {

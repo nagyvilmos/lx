@@ -34,7 +34,15 @@ class InvalidCommand extends Command {
     @Override
     public Command validate()
     {
-        this.message = this.arguments.toString();
+        if (this.arguments.isEmpty())
+        {
+            this.message = "";
+        }
+        else
+        {
+            this.message = this.arguments.toString();
+        }
+
         return super.validate();
     }
 

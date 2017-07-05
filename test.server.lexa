@@ -9,7 +9,7 @@
 # Author:  William Norman-Walker
 # Created: August 2013
 #===============================================================================
-#logFile log/test.server.log
+logFile log/test.server.log
 name test.host
 server {
     port % 31066
@@ -17,17 +17,18 @@ server {
 }
 broker {
     name hostEchoTest
-    serviceList {
-        echoService {
-            processList {
-                echo {
+    serviceList [
+        {
+            processList [
+                {
+                    name - echo
                     loader - lexa.core.server.factory.InternalLoader
 					class - Echo
                     maxProcesses % 1
                 }
-            }
+            ]
         }
-    }
+    ]
     logging {
         * {
             * ? true
